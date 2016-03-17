@@ -1,0 +1,35 @@
+Data Cleaning Exercise
+```{r}
+> refine_original <- read.csv("~/Documents/DataWrangling/refine_original.csv", stringsAsFactors=FALSE)
+View(refine_original)
+install.packages("plyr")
+install.packages("dplyr")
+install.packages("tidyr")
+
+library(plyr)
+
+cn<-refine_original$company
+refine_original$company<-revalue(cn, c("Phillips"="philips", "phillips"="philips", "phllips"="philips", "phillps"="philips", "phillipS"="philips", "Akzo"="akzo", "AKZO"="akzo", "akz0"="akzo", "ak zo"="akzo", "fillips"="philips", "Van Houten"="van houten", "van Houten" = "van houten", "unilver"="unilever", "Unilever"="unilever"))
+refine_original$product_code<-lapply(strsplit(as.character(refine_original$Product.code...number), "\\-"), "[", 1)
+refine_original$product_number<-lapply(strsplit(as.character(refine_original$Product.code...number), "\\-"), "[", 2)
+pc<-refine_original$product-code
+pc<-as.character(pc)
+refine_original$product_category<-revalue(pc, c(p="Smartphone", v="TV", x="Laptop", q="Tablet"))
+load(tidyr)
+unite(refine_original, "full_address", c(3:5), sep=",", remove=FALSE)
+> fa<-refine_original$full_address
+> fa<-fa$full_address
+> refine_original$full_address<-fa
+refine_original$company_philips<-ifelse(refine_original$company=="philips", 1, 0)
+> refine_original$company_akzo<-ifelse(refine_original$company=="akzo", 1, 0)
+> refine_original$company_van_houten<-ifelse(refine_original$company=="van houten", 1, 0)
+> refine_original$company_unilever<-ifelse(refine_original$company=="unilever", 1, 0)
+> refine_original$product_smartphone<-ifelse(refine_original$product_category=="Smartphone", 1, 0)
+> refine_original$product_tv<-ifelse(refine_original$product_category=="TV", 1, 0)
+> refine_original$product_laptop<-ifelse(refine_original$product_category=="Laptop", 1, 0)
+> refine_original$product_tablet<-ifelse(refine_original$product_category=="Tablet", 1, 0)
+refine_original$product_code<-as.character(refine_original$product_code)
+> refine_original$product_number<-as.character(refine_original$product_number)
+> write.csv(refine_original, file="refine_clean.csv")
+```
+
