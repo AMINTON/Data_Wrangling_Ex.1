@@ -6,6 +6,6 @@ Files:
 
 Data Wrangling Ex.1 Code.rmd - R markdown file detailing exercise instructions and code.  
 
-refine_original.csv - The raw toy store data set
+refine_original.csv - The raw toy store data set containing 6 columns, 25 rows. 
 
 refine_clean.csv - The cleaned up version of refine_original.csv. 
